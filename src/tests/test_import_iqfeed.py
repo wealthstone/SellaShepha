@@ -10,15 +10,35 @@ Created on Tue Oct 24 10:19:10 2017
   python -m unittest test_...
 '''
 import unittest
+import IQFeedImporter
+import datetime
 
 class TestIqFeedImport(unittest.TestCase):
-    def test_import_iqfeed(self):
+    def test_import_iqfeed(self): 
+        symbol = "SPX.XO"
+        iqf = IQFeedImporter()
+        self.assertIsNotNone(iqf, "Cannot create IQFeed class")
+        
+        
+        dateStart = datetime.datetime(2014,10,1)
+        dateEnd = datetime.datetime(2015,10,1)    
+        df = iqf.import_feed_symbol(dateStart, dateEnd, symbol)
+        self.assertIsNotNone(df, "No data retreived")
+         
+        
+#        iqdata = historicData(dateStart, dateEnd, 60)
+#        symbolOneData = iq.download_symbol(symbol)
+
+        iqf.import_feed_symbol()
+        
         result = False  # failing by design
         self.assertTrue(result)
         
     def test_import_feeds(self):
         result = False  # failing by design
         self.assertTrue(result)
+        
+    # todo: other tests (1) nose2 ? , (2) Robot ?,      
         
 if __name__ == '__main__':
     unittest.main()
