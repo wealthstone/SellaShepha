@@ -13,12 +13,12 @@ import unittest
 
 class TestIqFeedImport(unittest.TestCase):
     def test_import_iqfeed(self):
-        result = false  // failing by design
-        assertTrue(result)
+        result = False  # failing by design
+        self.assertTrue(result)
         
     def test_import_feeds(self):
-        result = false // failing by design
-        assertTrue(result)
+        result = False  # failing by design
+        self.assertTrue(result)
         
 if __name__ == '__main__':
     unittest.main()
