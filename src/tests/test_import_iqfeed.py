@@ -10,7 +10,6 @@ Created on Tue Oct 24 10:19:10 2017
 '''
 import unittest
 import datetime
-
 #sys.path.insert(0, 'C:\\dev\\SellaShepha\\src\\IQFeeder\\')
 import IQFeedImporter
 
