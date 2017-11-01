@@ -15,14 +15,15 @@ import IQFeedImporter
 
 
 class TestIqFeedImport(unittest.TestCase):
-    def test_import_iqfeed(self):
+   
+    def test_import_SingleAsset(self):
         symbol = "SPX.XO"
-        
-        # how do I call the iqfeed class 
+
+        # how do I call the iqfeed class
         #  we are in src/tests/test_import_iqfeed.py
         #  FeedImporter is in src/IQFeeder/FeedImporter
         # nope
-        
+
         iqf = IQFeedImporter()
         self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 
@@ -35,8 +36,14 @@ class TestIqFeedImport(unittest.TestCase):
         result = False  # failing by design
         self.assertTrue(result)
 
-    def test_import_feeds(self):
+    def test_import_AllAssets(self):
+        iqf = IQFeedImporter()
+        self.assertIsNotNone(iqf, "Cannot create IQFeed class")
+
+        
         result = False  # failing by design
+
+
         self.assertTrue(result)
 
     # todo: other tests (1) nose2 ? , (2) Robot ?,
