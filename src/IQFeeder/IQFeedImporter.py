@@ -137,12 +137,18 @@ class IQFeedImporter():
 #
 #        return result
 
-    def loadBloomberg(self):
-        bloompath = 
+    def loadBloomberg(self, dateStart, dateEnd):
+        ackpath = __getAquiredPath()
+        bloomfile = "bloomFile.xls"
+        #todo find bloomfile 
         df = pd.read_excel()
+        return pd
 
-    def analyze(self, dfIQ, dfBloom):
-        
+    def analyze(self, df1, df2):
+        Df1['i1'] = Df1[(Df1['i1']==Df1['i1']) & (Df1['i1']!='z')]
+        Df2['i1'] = Df2[(Df2['i1']==Df2['i1']) & (Df2['i1']!='z')]
+        Ratio1 = (Df2['i1']).astype(float)/(Df1['i1']).astype(float)
+        Indication1 = Ratio1 - 1
         
         
 # ------------------------ Internals ---
