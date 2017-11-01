@@ -79,7 +79,9 @@ class IQFeedImporter():
         iq = historicData(dateStart, dateEnd, 60)
         symbolOneData = iq.download_symbol(symbol)
         self.tickers.concatenate(symbolOneData)
-        saveDataframe() # fix
+        # path filename ismatlab
+        savepath = __get
+        __saveDataframe(  # fix
         # fix todo: store in .mat file and in database
         
 
@@ -138,7 +140,7 @@ class IQFeedImporter():
 #        return result
 
     def loadBloomberg(self, dateStart, dateEnd):
-        ackpath = __getAquiredPath()
+        ackpath = __getAnalizePath()
         bloomfile = "bloomFile.xls"
         #todo find bloomfile 
         df = pd.read_excel()
@@ -154,29 +156,42 @@ class IQFeedImporter():
 # ------------------------ Internals ---
         # todo: move these to the project utils class
         # todo: make these relative
+        # todo: unify them with an enum 
         
-    def __addPaths(a,b)
+    class DataPaths():
+        aqcuired = 1
+        settings = 2
+        analyze = 3
+        
+        
+    def __addPaths(a,b):
         return "{0}\\{1}".format(a,b)
     
-    def __getProjectPath():
-        return "C:\dev\SellaShepha"
+    def __getDataPath(datapathNum):
+        
+        return "C:\\dev\\SellaShepha"
     
     def __getAquiredPath():
         projpath = __getProjectPath()
         return __addPaths(projpath, "Aquired")
 
+    def __getAnalyzedPath():
+        projpath = __getProjectPath()
+        return __addPaths(projpath, "Analyzed")
+
+
     def __getDataPath(isTest):  # todo: config
         projpath = __getProjectPath()
         if isTest:
-            return __addPaths(projpath, "data\results")
+            return __addPaths(projpath, "data\\results")
         else:
-            return __addPaths(projpath, data\testing"
+            return __addPaths(projpath, "data\\testing")
 
     def __saveDataframe(dataframe, path, filename, ismatlab):
         if ismatlab:
             datadict = dataframe.to_dict()
             scipy.io.savemat(filename, datadict)
-            logger.debug("".format('saved to matlab file: {filename}', filename)
+            logger.debug("".format('saved to matlab file: {filename}', filename))
 
 
 #  ----------------- Internals 

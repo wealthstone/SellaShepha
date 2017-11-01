@@ -10,13 +10,14 @@ Created on Tue Oct 24 10:19:10 2017
 '''
 import unittest
 import datetime
-#sys.path.insert(0, 'C:\\dev\\SellaShepha\\src\\IQFeeder\\')
+import sys
+sys.path.insert(0, 'C:\\dev\\SellaShepha\\src\\IQFeeder\\')
 import IQFeedImporter
 
 
 class TestIqFeedImport(unittest.TestCase):
    
-    def test_import_SingleAsset(self):
+    def test_import_singleAsset(self):
         symbol = "SPX.XO"
 
         # how do I call the iqfeed class
@@ -30,17 +31,21 @@ class TestIqFeedImport(unittest.TestCase):
 
         dateStart = datetime.datetime(2014,10,1)
         dateEnd = datetime.datetime(2015,10,1)
-        df = iqf. import_feed_symbol(dateStart, dateEnd, symbol)
+        df = iqf.import_singleAsset(dateStart, dateEnd, symbol)
         self.assertIsNotNone(df, "No data retreived")
 
         result = False  # failing by design
         self.assertTrue(result)
 
-    def test_import_AllAssets(self):
+    def test_import_allAssets(self):
         iqf = IQFeedImporter()
         self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 
-        
+        dateStart = datetime.datetime(2014,10,1)
+        dateEnd = datetime.datetime(2015,10,1)
+        df = iqf.import_allAssets(dateStart, dateEnd)
+        self.assertIsNotNone(df, "No data retreived")
+
         result = False  # failing by design
 
 
