@@ -22,7 +22,7 @@ class IQFeedImporter(object):
     tickers = pd.DataFrame()
     symbols = []  # 'CBOT', 'CFE', "SPY", "AAPL", "GOOG", "AMZN"]
 
-    def __getTickerFilename(symbol):
+    def __getTickerFilename(self, symbol):
         yyyymmdd_HHMMss = datetime.date.today().strftime('%Y%m%d_%H%M%s')
         filename = "{symbol}{yyyymmdd_HHMMss}".format(symbol, yyyymmdd_HHMMss)
         return filename
@@ -75,7 +75,7 @@ class IQFeedImporter(object):
         symbols_column = "C"  # todo: config
         dframe = pd.read_excel(file_location, index_col=None, na_values='NA', parse_cols=symbols_column)
         if dframe.empty:
-            logger.error("Load symbols failed. No dataframe from {0}", file_location )
+            logger.error("Load symbols failed. No dataframe from {0}".format(file_location) )
             return
         dframe = dframe.dropna(how='all')
         if dframe.empty:
@@ -91,7 +91,7 @@ class IQFeedImporter(object):
         bloomcols = "C,D,E,F"
         
         dframe = pd.read_excel(file_location, index_col=None, na_values='NA', parse_cols=bloomcols)
-        return pd
+        return dframe
 
     def analyze(self, df1, df2):
         '''
