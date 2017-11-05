@@ -47,3 +47,4 @@ Temporary Items
 .apdisk
 src/junk/blabla.py
 src/IQFeeder/__pycache__/IQFeedImporter.cpython-36.pyc
+src/packages/IQFeed-master/__pycache__/iqfeed.cpython-36.pyc
