@@ -14,7 +14,7 @@ Created on Tue Oct 24 10:19:10 2017
 import unittest
 import datetime as dt
 # import tests_setup
-import sys
+# import sys
 # tests_setup.setpaths()
 # print(sys.path)
 import IQFeedImporter
@@ -51,13 +51,16 @@ class TestIqFeedImport(unittest.TestCase):
         self.assertTrue(not result.empty, "")
 
     def test_import_all_assets(self):
+        '''
+        tests importing all assets according to symbols list
+        '''
         iqf = IQFeedImporter.IQFeedImporter()
         self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 
         date_start = dt.datetime(2014, 10, 1)
         date_end = dt.datetime(2015, 10, 1)
-        df = iqf.import_all_assets(date_start, date_end)
-        self.assertIsNotNone(df, "No data retreived")
+        dframe = iqf.import_all_assets(date_start, date_end)
+        self.assertIsNotNone(dframe, "No data retreived")
 
         result = iqf.tickers
         self.assertTrue(not result.empty)
