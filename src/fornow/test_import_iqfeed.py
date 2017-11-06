@@ -13,7 +13,7 @@ Created on Tue Oct 24 10:19:10 2017
 
 import unittest
 import datetime as dt
-import tests_setup
+# import tests_setup
 import sys
 # tests_setup.setpaths()
 # print(sys.path)
