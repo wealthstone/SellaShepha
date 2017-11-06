@@ -52,3 +52,9 @@ src/packages/IQFeed-master/__pycache__/iqfeed.cpython-36.pyc
 .vscode/settings.json
 src/tests/__pycache__/tests_setup.cpython-36.pyc
 src/utils/__pycache__/DataSys.cpython-36.pyc
+.vscode/launch.json
+.vscode/settings.json
+src/fornow/__pycache__/DataSys.cpython-36.pyc
+src/fornow/__pycache__/iqfeed.cpython-36.pyc
+src/fornow/__pycache__/IQFeedImporter.cpython-36.pyc
+src/tests/__pycache__/tests_setup.cpython-36.pyc
