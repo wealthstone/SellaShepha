@@ -61,7 +61,7 @@ class historicData:
         data = ""
         while True:
             data = sock.recv(recv_buffer)
-            buffer += data
+            buffer += data.decode("utf-8")
     
             # Check if the end message string arrives
             if "!ENDMSG!" in buffer:
@@ -89,7 +89,7 @@ class historicData:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((self.host, self.port))
             
-            sock.sendall(message)
+            sock.sendall(message.encode('utf-8'))
             data = self.read_historical_data_socket(sock)
             sock.close
             
@@ -99,7 +99,8 @@ class historicData:
             data = data.replace(",\n","\n")[:-1]
     
             # Write the data stream to disk
-            
+            # check directory exists if not create it...
+            curpath = os.path.abspath(os.curdir)
             f = open(fileName, "w")
             f.write(data)
             f.close()
