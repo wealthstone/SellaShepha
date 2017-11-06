@@ -16,8 +16,10 @@ def setpaths():
     Sets paths for this project
     Note: it seems they don't accumulate from run to run
     '''
+'''
     src = "c:\\dev\\SellaShepha\\src"
     sys.path.append(src + "\\IQFeeder")
     sys.path.append(src + "\\packages\\IQFeed-master")
     sys.path.append(src + "\\tests")
     sys.path.append(src + "\\utils")
+'''

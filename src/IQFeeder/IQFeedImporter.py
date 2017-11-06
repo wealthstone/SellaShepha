@@ -219,16 +219,19 @@ class IQFeedImporter(object):
 
     @staticmethod
     def __saveDataframe(dframe, file_details, filetype):
-        if filetype = FilesaveType.matlab: 
-            datadict = dataframe.to_dict()
-            scipy.io.savemat(filename, datadict)
-            logger.debug("saved to matlab file: {0}".format(filename))
-        else if filetype = FilesaveType.excel:
+        if filetype == FilesaveType.matlab:
+            datadict = dframe.to_dict()
+            scipy.io.savemat(file_details, datadict)
+            logger.debug("saved to matlab file: {0}".format(file_details))
+        elif filetype == FilesaveType.excel:
             dframe.to_excel(file_details)
-        else if filetype = FilesaveType.csv:
+        elif filetype == FilesaveType.csv:
             dframe.to_csv(file_details)
+        else:
+            logger.error("Dataframe not saved. Wrong filetype supplied")
 
-class FilesaveType(enum.Enum)
+
+class FilesaveType(enum.Enum):
     matlab = ".mat"
     csv = ".csv"
     excel = ".xlsx"

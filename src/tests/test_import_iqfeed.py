@@ -42,9 +42,9 @@ class TestIqFeedImport(unittest.TestCase):
         iqf = IQFeedImporter.IQFeedImporter()
         self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 
-        date_start = dt.datetime(2014, 10, 1)
-        date_end = dt.datetime(2015, 10, 1)
-        result = iqf.import_single_asset(date_start, date_end, symbol)
+        date_start = dt.datetime(2015, 10, 1)
+        date_end = dt.datetime(2016, 10, 1)
+        result = iqf.import_single_asset(symbol, date_start, date_end)
         self.assertIsNotNone(result,
                              "No data for symbol {0}".format(symbol))
         self.assertTrue(not result.empty, "")
