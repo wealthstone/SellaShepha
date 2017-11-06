@@ -1,17 +1,18 @@
 '''
-todo: add module doc string
+Data folders paths and filenames
 '''
+from enum import Enum
+# see https://stackoverflow.com/questions/35988/c-like-structures-in-python
 
 
-class DataFolders(object):
-    '''
-    enumeration
-    '''
+class DataFolders(Enum):
+    ''' data folders enumeration '''
+
     # todo: config
     settings = "settings"  # asset names
     compared = "compared"  # bloomberg
     compiled = "compiled"  # compilation results
-    testing = "testing"    # compilation results during QA testing 
+    testing = "testing"   # compilation results during QA testing
 
 
 class DataSys(object):
@@ -23,16 +24,14 @@ class DataSys(object):
 
     def datapath(self, datatype):
         '''
-        gets path to data folder for chosen data type 
+        gets path to data folder for chosen data type
         data types are defined in the DataFolders class
         '''
         return "{0}\\{1}".format(self.__data_folder, datatype)
-        
+
     def datafile(self, datatype, filename):
         '''
         gets full path for filename in this data-type
         data types are defined in the DataFolders class
         '''
         return "{0}\\{1}".format(self.datapath(datatype), filename)
-
-

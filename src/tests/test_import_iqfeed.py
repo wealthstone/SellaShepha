@@ -4,7 +4,7 @@ Created on Tue Oct 24 10:19:10 2017
 @author: pashute
 
   see youtube: python unitests https://www.youtube.com/watch?v=6tNS--WetLI
-  testcase documentation: 
+  testcase documentation:
     https://docs.python.org/2/library/unittest.html#unittest.TestCase
   python -m unittest test_...
 
@@ -12,7 +12,7 @@ Created on Tue Oct 24 10:19:10 2017
 '''
 
 import unittest
-import datetime as dt 
+import datetime as dt
 import tests_setup
 import sys
 tests_setup.setpaths()
@@ -29,10 +29,10 @@ class TestIqFeedImport(unittest.TestCase):
         result = tests_setup.curpaths()
         iqfeeder = "c:\\dev\\SellaShepha\\src\\IQFeeder"
         isok = self.assertIn(iqfeeder, result, "paths not set up")
-        if not isok: 
+        if not isok:
             tests_setup.setpaths()
             self.assertIn(iqfeeder, result, "paths still not set up")
-        
+       
     def test_import_single_asset(self):
         '''
         Tests singal asset importing
