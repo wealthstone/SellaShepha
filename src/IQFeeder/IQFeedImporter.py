@@ -3,6 +3,7 @@
 Created on Tue Oct 24 16:20:22 2017
 
 @author: pashute
+useful dataframe code: https://gist.github.com/bsweger/e5817488d161f37dcbd2
 """
 from iqfeed import historicData
 import pandas as pd
@@ -10,7 +11,7 @@ import pandas as pd
 import datetime
 import scipy.io
 import DataSys as dsys
-
+import enum
 
 import logging
 logging.basicConfig(filename="log.iqfeed.txt", level=logging.WARN)
@@ -182,7 +183,9 @@ class IQFeedImporter(object):
         
         
         tolerance = 1.5  # config
-        compiled = common['symbol', 'date']
+        # see https://stackoverflow.com/questions/12376863/adding-calculated-columns-to-a-dataframe-in-pandas
+        compiled = compiled.concat(common['symbol', 'date'])
+        compiled['open']="na" if dp.isnull(df1['open']) else (df1['open']/df2['open'])-1
         df1['date'] = df1[(df1['i1'] == df1['i1']) & (df1['i1'] != 'z')]
         df2['i1'] = df2[(df2['i1'] == df1['i1']) & (df2['i1'] != 'z')]
         # Ratio1 = (df2['i1']).astype(float)/(df1['i1']).astype(float)
@@ -215,8 +218,17 @@ class IQFeedImporter(object):
         return filename
 
     @staticmethod
-    def __saveDataframe(dataframe, path, filename, ismatlab):
-        if ismatlab:
+    def __saveDataframe(dframe, file_details, filetype):
+        if filetype = FilesaveType.matlab: 
             datadict = dataframe.to_dict()
             scipy.io.savemat(filename, datadict)
-            logger.debug("saved to matlab file: {filename}".format(filename))
+            logger.debug("saved to matlab file: {0}".format(filename))
+        else if filetype = FilesaveType.excel:
+            dframe.to_excel(file_details)
+        else if filetype = FilesaveType.csv:
+            dframe.to_csv(file_details)
+
+class FilesaveType(enum.Enum)
+    matlab = ".mat"
+    csv = ".csv"
+    excel = ".xlsx"
