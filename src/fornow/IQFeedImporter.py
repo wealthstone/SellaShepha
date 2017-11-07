@@ -5,13 +5,14 @@ Created on Tue Oct 24 16:20:22 2017
 @author: pashute
 useful dataframe code: https://gist.github.com/bsweger/e5817488d161f37dcbd2
 """
-from iqfeed import historicData
+from iqfeed import historicData as iqfc
 import pandas as pd
 # import numpy as np
-import datetime
+# import datetime
 import scipy.io
 import DataSys as dsys
 import enum
+# import IQFeedClient as iqfc
 
 import logging
 logging.basicConfig(filename="log.iqfeed.txt", level=logging.WARN)
@@ -26,30 +27,61 @@ class IQFeedImporter(object):
         index=['symbol', 'date'])
 
     symbols = []  # 'CBOT', 'CFE', "SPY", "AAPL", "GOOG", "AMZN"]
-
-    def import_single_asset(self, symbol, dateStart, dateEnd):
-        '''
-        imports single asset
-        '''
-        iq = historicData(dateStart, dateEnd, 60)
-        dframe = iq.download_symbol(symbol)
+    
+    def imp1_call_iqfeed(self, symbol, date_start, date_end):
+        # x iqfeed = iqfc.IQFeedClient(feeder)
+        iqreq = iqfc.historicData(date_start, date_end, 60)
+        dframe = iqreq.download_symbol(symbol)
+        return dframe
+    
+    def imp1_check_iqfeed_result(self, dframe):
         if not(dframe.empty):
             dframe.dropna(how='all')
 
         if dframe.empty:  # Note: Second check, not an else.
             logger.error("import_singleAsset failed: no data aquired.")
-            return
+            return False
+        
+        return True
+
+    def imp1_manip_result(self, symbol, dframe):
+        # set column names
+        dframe.columns = ['date', 'open', 'high', 'low', 'close', 'volume', 
+                          'other']
 
         # add column with symbol
-        dframe['symbol'] = symbol
+        dframe['symbol'] = pd.Series([symbol for x in range(len(dframe.index))], 
+                                     index=dframe.index)
 
         # set symbol and date column as multi index
-        dframe.set_index(['symbol', 'date'])
+        dframe.reindex(columns=['symbol', 'date'])
 
+        return True
+
+    def import_single_asset(self, symbol, date_start, date_end):
+        '''
+        imports single asset
+        '''
+        status = "failed. Import {0}".format(symbol) # todo: add date_start and end in status. 
+
+        dframe = self.imp1_call_iqfeed(symbol, date_start, date_end)
+        isok = self.imp1_check_iqfeed_result(self, dframe)
+        if not isok:
+            status = "import {0} failed: Empty or no results".format(symbol)
+            logger.error(status)
+            return status
+ 
+        isok = self.imp1_manip_result(self, symbol, dframe)
+        if not isok:
+            status = "fail. Import {0}: Problem setting data".format(symbol)
+            logger.error(status)
+            return status
+         
         self.tickers.append(dframe)
-        logger.info("import_singleAsset succeeded")
-        #       , symbol, dateStart, dateEnd
 
+        status = "ok. Imported {0}".format(symbol)
+        return status  # for testing that we got here
+        
     def import_all_assets(self, date_start, date_end):
         self.load_symbols()  # get symbols list
 
