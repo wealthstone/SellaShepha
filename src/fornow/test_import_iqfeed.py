@@ -68,6 +68,13 @@ class TestIqFeedImport(unittest.TestCase):
         actual = False  # todo: call method with dataframe and symbol
         self.assertTrue(actual)
 
+    def test_load_symbols(self):
+        iqf = iqfi.IQFeedImporter()
+        symbols = iqf.load_symbols()
+        # expected = not isnull(symbols) & symbols.count > 0
+        self.assertIsNotNone(symbols)
+        self.assertGreater(len(symbols), 0)
+
     def test_import_single_asset(self):
         ''' Tests all single asset importing '''
         symbol = "SPX.XO"
