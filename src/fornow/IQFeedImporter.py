@@ -119,7 +119,7 @@ class IQFeedImporter(object):
     def import_all_assets(self, date_start, date_end):
         self.load_symbols()  # get symbols list
 
-        if self.symbols.count < 1:
+        if len(self.symbols) < 1:
             logger.error("Import all: Symbols not loaded correctly. Aborting")
             return
 

@@ -54,7 +54,7 @@ class TestsIqfeedImporter(unittest.TestCase):
     def test_import_single_asset__result_validated(self):
         ''' tests that result is validated'''
         symbol = "asymbol"  # todo: test settings?
-        dframe = __fake_df_imported(symbol)
+        dframe = self.fake_df_imported(symbol)
 
         iqf = iqfi.IQFeedImporter()
         actual = iqf.imp1_check_iqfeed_result(dframe)
@@ -101,13 +101,13 @@ class TestsIqfeedImporter(unittest.TestCase):
         result = iqf.tickers
         self.assertTrue(not result.empty)
 
+    @staticmethod
+    def fake_df_imported(symbol):
+        drange = pd.date_range('1/1/2015', periods=5, freq='D')
+        dframe = pd.Series([drange, symbol, 2, 7, 1, 6, 0, 0])
+        return dframe
+
     # todo: other tests (1) nose2 ? , (2) Robot ?,
-
-
-def __fake_df_imported(symbol):
-    drange = pd.date_range('1/1/2015', periods=5, freq='D')
-    dframe = pd.Series(drange, symbol, 2, 7, 1, 6, 0, 0)
-    return dframe
 
 
 if __name__ == '__main__':

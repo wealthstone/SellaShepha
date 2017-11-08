@@ -1,7 +1,7 @@
 '''
 Data folders paths and filenames
 '''
-from enum import Enum
+# from enum import Enum
 import logging
 import scipy.io
 # check: not sure if i have to set logger here too'
@@ -9,7 +9,7 @@ logging.basicConfig(filename="log.iqfeed.txt", level=logging.WARN)
 logger = logging.getLogger(__name__)
 
 
-class Prefixes(Enum):
+class Prefixes(object):  # Enum):
     ''' prefixes enum '''
     # todo: config
     bloomberg_only = "bloom_only"
@@ -19,15 +19,15 @@ class Prefixes(Enum):
     bloomberg_compare = "bloom"
 
 
-class Extensions(Enum):
+class Extensions(object):  # Enum):
     ''' supported extensions (excel, matlab, csv) enumeration '''
-    excel = ".xlsx"
-    matlab = ".mat"
-    csv = ".csv"
+    excel = "xlsx"
+    matlab = "mat"
+    csv = "csv"
     # todo: config
 
 
-class DataFolders(Enum):
+class DataFolders(object):  # Enum):
     ''' data folders enumeration '''
 
     settings = "settings"  # asset names
@@ -74,8 +74,8 @@ class DataSys(object):
             prefix, datafolder, symbol,
             date_start, date_end, extension=".xlsx"):
         ''' gives datafile path and filename details from parameters '''
-        dstart = date_start.strftime('%Y%m%d_%H%M%s')
-        dend = date_end.strftime('%Y%m%d_%H%M%s')
+        dstart = date_start.strftime('%Y%m%d')
+        dend = date_end.strftime('%Y%m%d')
         filename = "{0}_{1}_{2}_{3}.{4}".format(
             prefix, symbol, dstart, dend, extension)
 
