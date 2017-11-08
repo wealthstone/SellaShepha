@@ -34,7 +34,6 @@ class DataFolders(Enum):
     compare_from = "compare"  # bloomberg
     rejected = "rejected"  # rejected, or only in one of the frames
     compiled = "compiled"  # compilation results
-    testing = "testing"   # compilation results during QA testing
     ''' data folders enumeration '''
     # todo: config
 
@@ -43,8 +42,11 @@ class DataSys(object):
     '''
     Methods for retrieving data folder names and full paths with filenames
     '''
+    is_testing = False  # change this to true for testing
+
     project_path = "c:\\dev\\SellaShepha"  # WealthProphet
-    data_mainfolder = "{0}\\{1}".format(project_path, "data")
+    data_mainpath = "{0}\\{1}".format(project_path, "data")
+    data_testingpath = "{0}\\{1}".format(data_mainpath, "testing")
 
     @staticmethod
     def path_byfolder(datafolder):
@@ -52,7 +54,12 @@ class DataSys(object):
         gets path to data folder for chosen data type
         data types are defined in the DataFolders class
         '''
-        return "{0}\\{1}".format(DataSys.data_mainfolder, datafolder)
+        rootpath = DataSys.data_mainpath
+        if (DataSys.is_testing and
+                (datafolder == DataFolders.rejected or
+                 datafolder == DataFolders.compiled)):
+            rootpath = DataSys.data_testingpath
+        return "{0}\\{1}".format(rootpath, datafolder)
 
     @staticmethod
     def details_byfolder(datafolder, filename):

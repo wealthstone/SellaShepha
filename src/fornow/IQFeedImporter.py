@@ -3,7 +3,6 @@
 Created on Tue Oct 24 16:20:22 2017
 
 @author: pashute
-useful dataframe code: https://gist.github.com/bsweger/e5817488d161f37dcbd2
 """
 import iqfeed as iqfc
 import pandas as pd
@@ -54,7 +53,6 @@ def __failedmessage(func, symbol, reason):
 
 
 class IQFeedImporter(object):
-    __is_testing = False
     tickers = pd.DataFrame(
         columns=['symbol', 'date',
                  'open', 'high', 'low', 'close', 'volume'],
@@ -101,13 +99,13 @@ class IQFeedImporter(object):
         # todo: add date_start and end in status. 
 
         dframe = self.imp1_call_iqfeed(symbol, date_start, date_end)
-        isok = self.imp1_check_iqfeed_result(self, dframe)
+        isok = self.imp1_check_iqfeed_result(dframe)
         if not isok:
             status = "import {0} failed: Empty or no results".format(symbol)
             logger.error(status)
             return status
 
-        isok = self.imp1_manip_result(self, symbol, dframe)
+        isok = self.imp1_manip_result(symbol, dframe)
         if not isok:
             status = "fail. Import {0}: Problem setting data".format(symbol)
             logger.error(status)
