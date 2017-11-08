@@ -55,3 +55,4 @@ src/utils/__pycache__/DataSys.cpython-36.pyc
 src/fornow/__pycache__/DataSys.cpython-36.pyc
 src/fornow/__pycache__/iqfeed.cpython-36.pyc
 src/fornow/__pycache__/IQFeedImporter.cpython-36.pyc
+log.iqfeed.txt

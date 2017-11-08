@@ -5,7 +5,7 @@ Created on Tue Oct 24 16:20:22 2017
 @author: pashute
 useful dataframe code: https://gist.github.com/bsweger/e5817488d161f37dcbd2
 """
-from iqfeed import historicData as iqfc
+import iqfeed as iqfc
 import pandas as pd
 # import numpy as np
 # import datetime
@@ -17,6 +17,36 @@ import enum
 import logging
 logging.basicConfig(filename="log.iqfeed.txt", level=logging.WARN)
 logger = logging.getLogger(__name__)
+
+
+def __indicator(row, col):
+    ''' method for applying in lambda function '''
+    x1 = row[col + '_x']
+    y2 = row[col + '_y']
+    if pd.isnull(x1) and pd.isnull(y2):
+        return "missing"
+    elif pd.isnull(x1): 
+        return "missing1"
+    elif pd.isnull(y2):
+        return "missing2"
+    elif y2 == 0: 
+        return "zero2"
+    else:
+        return (x1/y2)-1
+
+
+def __plobrem(row):
+    return row['open':'volume'].apply(
+        lambda x: isinstance(x, str)).sum()
+
+
+def __rejectedCount(row, tolerance): 
+    return row['o':'v'].apply(
+        lambda x: (not isinstance(x, str)) and abs(x) > tolerance).sum()
+
+
+def __failedmessage(func, symbol, reason):
+    return "Failed {0} {1}: {2}".format(func, symbol, reason)
 
 
 class IQFeedImporter(object):
@@ -50,8 +80,9 @@ class IQFeedImporter(object):
                           'other']
 
         # add column with symbol
-        dframe['symbol'] = pd.Series([symbol for x in range(len(dframe.index))], 
-                                     index=dframe.index)
+        dframe['symbol'] = pd.Series(
+            [symbol for x in range(len(dframe.index))], 
+            index=dframe.index)
 
         # set symbol and date column as multi index
         dframe.reindex(columns=['symbol', 'date'])
@@ -62,7 +93,8 @@ class IQFeedImporter(object):
         '''
         imports single asset
         '''
-        status = "failed. Import {0}".format(symbol) # todo: add date_start and end in status. 
+        status = "failed. Import {0}".format(symbol)
+        # todo: add date_start and end in status. 
 
         dframe = self.imp1_call_iqfeed(symbol, date_start, date_end)
         isok = self.imp1_check_iqfeed_result(self, dframe)
@@ -70,18 +102,18 @@ class IQFeedImporter(object):
             status = "import {0} failed: Empty or no results".format(symbol)
             logger.error(status)
             return status
- 
+
         isok = self.imp1_manip_result(self, symbol, dframe)
         if not isok:
             status = "fail. Import {0}: Problem setting data".format(symbol)
             logger.error(status)
             return status
-         
+
         self.tickers.append(dframe)
 
         status = "ok. Imported {0}".format(symbol)
         return status  # for testing that we got here
-        
+
     def import_all_assets(self, date_start, date_end):
         self.load_symbols()  # get symbols list
 
@@ -125,7 +157,7 @@ class IQFeedImporter(object):
             return
         self.symbols = dframe.values.tolist()
 
-    def loadBloomberg(self, date_start, date_end, symbol):
+    def loadBloomberg(self, symbol, date_start, date_end):
         dfld = dsys.DataFolders()
         comparefldr = dfld.compared
         datestring = "{0}_{1}".format(date_start, date_end)
@@ -136,6 +168,11 @@ class IQFeedImporter(object):
 
         dframe = pd.read_excel(file_location, index_col='date',
                                na_values='NA', parse_cols=bloomcols)
+        if dframe is None or dframe.empty:
+            status = __failedmessage('loadbloom', symbol, 'No compare data')
+            logger.error(status)
+            return
+        
         return dframe
 
     def analyze_symbol(self, symbol, date_start, date_end):
@@ -157,6 +194,7 @@ class IQFeedImporter(object):
           is number1, isnumber2 number2>0: (n1/n2)-1
         for each line:
         --- '''
+        stage = "failed"
         iq_only = pd.DataFrame(
             columns=['symbol', 'date', 
                      'open', 'high', 'low', 'close', 'volume'], 
@@ -164,39 +202,50 @@ class IQFeedImporter(object):
         
         bloom_only = pd.DataFrame(
             columns=['symbol', 'date', 
-                     'open', 'high', 'low', 'close', 'volume'], 
-            index=['symbol', 'date'])
+                     'open', 'high', 'low', 'close', 'volume'])
 
         compiled = pd.DataFrame(
             columns=['symbol', 'date', 
                      'open', 'high', 'low', 'close', 'volume',
-                     'ook', 'hok', 'lok', 'cok', 'vok', 'rowok'],
-            index=['symbol', 'date'])
+                     'ook', 'hok', 'lok', 'cok', 'vok', 'rowok'])
 
         df1 = self.tickers.xs(symbol, level=('symbol'))
         if df1.empty:
-            logger.error("Anaylyze %s failed: No feed data", symbol)
-            return
+            stage = __failedmessage('analyze', symbol, 'No feed data')
+            logger.error(stage)
+            return stage
 
         df2 = self.loadBloomberg(symbol, date_start, date_end)
-        if df1.empty:
-            logger.error("Anaylyze %s failed: No comparison data", symbol)
-            return
+        if df2 is None or df2.empty:
+            stage = __failedmessage('analyze', symbol, 'No comparison data')
+            logger.error(stage)
+            return stage
 
         # 1. compare only dates inside both
         feedDate1 = df1['date'].head(1)
         bloomDate1 = df2['date'].head(1)  # .iloc[0]
-        # df1['date'] = pd.to_datetime(df1['date'])
         date1 = max(feedDate1, bloomDate1)
+        # x df1['date'] = pd.to_datetime(df1['date'])
 
         feedDate2 = df1['date'].tail(1)
         bloomDate2 = df2['date'].tail(1)
         date2 = min(feedDate2, bloomDate2)
+        # fix: check for errors in dates
 
         df1 = df1.xs(
             symbol, slice(date1, date2),
             level=('symbol', 'date'))
 
+        df2 = df2.xs(
+            symbol, slice(date1, date2),
+            level=('symbol', 'date'))
+        
+        if df1.empty or df2.empty:
+            stage = __failedmessage(
+                'analyze', symbol, 'No date within compared dates')
+            logger.error(stage)
+            return stage
+        
         # remove na-rows from both and then compare missing dates
         # Note: if both missing a date it will be removed without report
         # check na in columns except symbol and date
@@ -205,65 +254,41 @@ class IQFeedImporter(object):
         df1 = df1.dropna(subset=df1.columns[cols1:], how='all')
         df2 = df2.dropna(subset=df2.columns[cols2:], how='all')
 
-        # create the bloom only and iqfeed only
-        dfcommon = df1.merge(df2, on=['symbol','date'])
+        if df1.empty or df2.empty:
+            stage = __failedmessage('analyze', symbol, 'Missing input data')
+            logger.error(stage)
+            return stage
+
+        # create the merge, the bloom only and iqfeed only
+        dfcommon = df1.merge(
+            df2, on=['symbol', 'date'], left_index=True, right_index=True)
+        stage = "Failed. Analyze {0}"
         iq_only = df1[(~df1.index.isin(dfcommon.index))]
         bloom_only = df2[(~df1.index.isin(dfcommon.index))]
-        
-        # mark na's 
-        # get the ratio and indication
-        
-        
+        stage = "Created summaries of unique in iqfeed and Bloomberg"        
+
+        # mark indicators: col1/col2-1 or: missing/missing1/missing2/zero2
         tolerance = 1.5  # config
-        # see https://stackoverflow.com/questions/12376863/adding-calculated-columns-to-a-dataframe-in-pandas
-        compiled = compiled.concat(common['symbol', 'date'])
-        compiled['open']="na" if dp.isnull(df1['open']) else (df1['open']/df2['open'])-1
-        df1['date'] = df1[(df1['i1'] == df1['i1']) & (df1['i1'] != 'z')]
-        df2['i1'] = df2[(df2['i1'] == df1['i1']) & (df2['i1'] != 'z')]
-        # Ratio1 = (df2['i1']).astype(float)/(df1['i1']).astype(float)
-        # Indication1 = Ratio1 - 1
-        # set indication in dataframe
-        # mark over threshold
+        for col in ['open', 'high', 'low', 'close', 'volume']:
+            dfcommon[col] = dfcommon.apply(
+                lambda row: __indicator(row, col), axis=1)
+        # https://stackoverflow.com/questions/44140489/get-non-numerical-rows-in-a-column-pandas-python/44140542#44140542
+        # https://stackoverflow.com/questions/10665889/how-to-take-column-slices-of-dataframe-in-pandas
+        dfcommon['hasBad'] = dfcommon.apply(lambda row: __plobrem(row))
+        dfcommon['rejected'] = dfcommon.apply(
+            lambda row: __rejected(row, tolerance))
+        stage = "done preparing common data"
         
+        prefix = dsys.DataFilePrefixes.bloomberg_only
+        datafolder = dsys.DataFolders.rejected
+        extension = dsys.Extensions.excel
+        filedetails = dsys.DataSys.datafile_details(
+            prefix, datafolder, symbol, date1, date2, extension)
+        saveDataframe(dfcommon, file_details, )
+        stage = "saved bloom only"
+
+        return stage
 
 # ------------------------ Internals ---
-    @staticmethod
-    def __getTickerFilename(symbol, date_start, date_end, extention):
-        '''
-        filename for saving (or retrieving) iq data
-        '''
-        # x yyyymmdd_HHMMss = datetime.date.today().strftime('%Y%m%d_%H%M%s')
-        dstart = date_start.strftime('%Y%m%d_%H%M%s')
-        dend = date_end.strftime('%Y%m%d_%H%M%s')
-        filename = "{0}_{1}_{2}.{3}".format(symbol, dstart, dend, extention)
-        return filename
-
-    @staticmethod
-    def __getBloomFilename(symbol, date_start, date_end, extention):
-        '''
-        gets bloomberg filename
-        '''
-        # x yyyymmdd_HHMMss = datetime.date.today().strftime('%Y%m%d_%H%M%s')
-        dstart = date_start.strftime('%Y%m%d_%H%M%s')
-        dend = date_end.strftime('%Y%m%d_%H%M%s')
-        filename = "{0}_{1}_{2}.{3}".format(symbol, dstart, dend, extention)
-        return filename
-
-    @staticmethod
-    def __saveDataframe(dframe, file_details, filetype):
-        if filetype == FilesaveType.matlab:
-            datadict = dframe.to_dict()
-            scipy.io.savemat(file_details, datadict)
-            logger.debug("saved to matlab file: {0}".format(file_details))
-        elif filetype == FilesaveType.excel:
-            dframe.to_excel(file_details)
-        elif filetype == FilesaveType.csv:
-            dframe.to_csv(file_details)
-        else:
-            logger.error("Dataframe not saved. Wrong filetype supplied")
 
 
-class FilesaveType(enum.Enum):
-    matlab = ".mat"
-    csv = ".csv"
-    excel = ".xlsx"
