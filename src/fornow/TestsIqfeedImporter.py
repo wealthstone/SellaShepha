@@ -3,12 +3,6 @@ Created on Tue Oct 24 10:19:10 2017
 
 @author: pashute
 
-  see youtube: python unitests https://www.youtube.com/watch?v=6tNS--WetLI
-  testcase documentation:
-    https://docs.python.org/2/library/unittest.html#unittest.TestCase
-  python -m unittest test_...
-  mock a module: 
-    https://stackoverflow.com/questions/8658043/how-to-mock-an-import
 
 # -*- coding: utf-8 -*-
 '''
@@ -26,9 +20,9 @@ import sys
 import IQFeedImporter as iqfi
 
 
-class TestIqFeedImport(unittest.TestCase):
+class TestsIqfeedImporter(unittest.TestCase):
     '''
-    test IQFeedImport class and methods
+    tests for IQFeedImport class and module
     '''
 
     '''-- def test_setup(self):
@@ -40,7 +34,7 @@ class TestIqFeedImport(unittest.TestCase):
             self.assertIn(iqfeeder, result, "paths still not set up")
     --'''
 
-    def test_import_single_asset__returns_dataframe(self):
+    def test_import_single_asset_returns_dataframe(self):
         ''' tests that import returns a dataframe using mock '''
 
         sys.modules['iqfeed'] = mck.Mock()
@@ -57,7 +51,7 @@ class TestIqFeedImport(unittest.TestCase):
     def test_import_single_asset__result_validated(self):
         ''' tests that result is validated'''
         symbol = "asymbol"  # todo: test settings?
-        dframe = __fakeimported(symbol)                    
+        dframe = __fake_df_imported(symbol)
 
         iqf = iqfi.IQFeedImporter()
         actual = iqf.imp1_check_iqfeed_result(dframe)
@@ -78,7 +72,7 @@ class TestIqFeedImport(unittest.TestCase):
     def test_import_single_asset(self):
         ''' Tests all single asset importing '''
         symbol = "SPX.XO"
-        
+
         sys.modules['iqfeed'] = mck.Mock()
         iqf = iqfi.IQFeedImporter()
         # self.assertIsNotNone(iqf, "Cannot create IQFeed class")
@@ -107,9 +101,9 @@ class TestIqFeedImport(unittest.TestCase):
     # todo: other tests (1) nose2 ? , (2) Robot ?,
 
 
-def __fakeimported(symbol):
+def __fake_df_imported(symbol):
     drange = pd.date_range('1/1/2015', periods=5, freq='D')
-    dframe = pd.Series(drange, 'asymbol', 2, 7, 1, 6, 0, 0)
+    dframe = pd.Series(drange, symbol, 2, 7, 1, 6, 0, 0)
     return dframe
 
 

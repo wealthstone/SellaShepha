@@ -9,13 +9,14 @@ logging.basicConfig(filename="log.iqfeed.txt", level=logging.WARN)
 logger = logging.getLogger(__name__)
 
 
-class DataFilePrefixes(Enum):
+class Prefixes(Enum):
     ''' prefixes enum '''
     # todo: config
-    bloomberg_only = "bloom"
-    iqfeed_only = "iq"
-    compiled = "compiled"
-    rejected = "rejected"
+    bloomberg_only = "bloom_only"
+    iqfeed_only = "iq_only"
+    compiled = "ok"
+    rejected = "rejects"
+    bloomberg_compare = "bloom"
 
 
 class Extensions(Enum):
@@ -30,7 +31,7 @@ class DataFolders(Enum):
     ''' data folders enumeration '''
 
     settings = "settings"  # asset names
-    compared = "compared"  # bloomberg
+    compare_from = "compare"  # bloomberg
     rejected = "rejected"  # rejected, or only in one of the frames
     compiled = "compiled"  # compilation results
     testing = "testing"   # compilation results during QA testing

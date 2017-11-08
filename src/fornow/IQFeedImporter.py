@@ -9,9 +9,9 @@ import iqfeed as iqfc
 import pandas as pd
 # import numpy as np
 # import datetime
-import scipy.io
+# import scipy.io
 import DataSys as dsys
-import enum
+# import enum
 # import IQFeedClient as iqfc
 
 import logging
@@ -25,7 +25,7 @@ def __indicator(row, col):
     y2 = row[col + '_y']
     if pd.isnull(x1) and pd.isnull(y2):
         return "missing"
-    elif pd.isnull(x1): 
+    elif pd.isnull(x1):
         return "missing1"
     elif pd.isnull(y2):
         return "missing2"
@@ -36,11 +36,15 @@ def __indicator(row, col):
 
 
 def __plobrem(row):
+    ''' 
+    count problems in row (missing data or zero in iqfeed)
+    supplising sorution fol arr plobrems
+    '''
     return row['open':'volume'].apply(
         lambda x: isinstance(x, str)).sum()
 
 
-def __rejectedCount(row, tolerance): 
+def __rejected_count(row, tolerance):
     return row['o':'v'].apply(
         lambda x: (not isinstance(x, str)) and abs(x) > tolerance).sum()
 
@@ -57,13 +61,13 @@ class IQFeedImporter(object):
         index=['symbol', 'date'])
 
     symbols = []  # 'CBOT', 'CFE', "SPY", "AAPL", "GOOG", "AMZN"]
-    
+
     def imp1_call_iqfeed(self, symbol, date_start, date_end):
         # x iqfeed = iqfc.IQFeedClient(feeder)
         iqreq = iqfc.historicData(date_start, date_end, 60)
         dframe = iqreq.download_symbol(symbol)
         return dframe
-    
+
     def imp1_check_iqfeed_result(self, dframe):
         if not(dframe.empty):
             dframe.dropna(how='all')
@@ -139,17 +143,18 @@ class IQFeedImporter(object):
         '''
         loads symbols-list from excel
         '''
-        dfld = dsys.DataFolders()
-        settingsfldr = dfld.settings
+        
+        settingsfldr = dsys.DataFolders.settings
         assetslistfile = "assets.xlsx"  # "AssetNamesNew.v01.xlsx"
 
-        file_location = dsys.datafile(settingsfldr, assetslistfile)
+        file_details = dsys.DataSys.details_byfolder(
+                        settingsfldr, assetslistfile)
         symbols_column = "C"  # todo: config
-        dframe = pd.read_excel(file_location, index_col=None,
+        dframe = pd.read_excel(file_details, index_col=None,
                                na_values='NA', parse_cols=symbols_column)
         if dframe.empty:
             logger.error("Load symbols failed. No dataframe from %s",
-                         file_location)
+                         file_details)
             return
         dframe = dframe.dropna(how='all')
         if dframe.empty:
@@ -158,15 +163,16 @@ class IQFeedImporter(object):
         self.symbols = dframe.values.tolist()
 
     def loadBloomberg(self, symbol, date_start, date_end):
-        dfld = dsys.DataFolders()
-        comparefldr = dfld.compared
-        datestring = "{0}_{1}".format(date_start, date_end)
-        bloomfile = "bloomfile_{0}.xls".format(datestring)
-        file_location = dsys.datafile(comparefldr, bloomfile)
+        file_details = dsys.DataSys.datafile_details(
+            dsys.Prefixes.bloomberg_compare,
+            dsys.DataFolders.compare_from,
+            symbol, date_start, date_end,
+            dsys.Extensions.excel)
+
         bloomcols = "1,2,3,4,5" 
         # "Date,PX_OPEN,PX_HIGH,PX_LOW,PX_LAST"
 
-        dframe = pd.read_excel(file_location, index_col='date',
+        dframe = pd.read_excel(file_details, index_col='date',
                                na_values='NA', parse_cols=bloomcols)
         if dframe is None or dframe.empty:
             status = __failedmessage('loadbloom', symbol, 'No compare data')
@@ -181,19 +187,15 @@ class IQFeedImporter(object):
         outputs: in_iq, in_bloom, rejects, compared
         '''
         
-        ''' ---
-        pseudo: 
-        a if condition else b
-        startdate: max first1:first2
-        enddate: min last1:last2
+        # pseudo: 
+        # startdate: max first1:first2
+        # enddate: min last1:last2
 
-        find dates not in df1
-        find dates not in df2
-        for each line: na1, na2, na,
-        for each line: zero2, (v1/v2)-1
-          is number1, isnumber2 number2>0: (n1/n2)-1
-        for each line:
-        --- '''
+        # find dates not in df1
+        # find dates not in df2
+        # for each line: na1, na2, na, zero2
+        # for each line: (v1/v2)-1
+    
         stage = "failed"
         iq_only = pd.DataFrame(
             columns=['symbol', 'date', 
@@ -274,21 +276,55 @@ class IQFeedImporter(object):
                 lambda row: __indicator(row, col), axis=1)
         # https://stackoverflow.com/questions/44140489/get-non-numerical-rows-in-a-column-pandas-python/44140542#44140542
         # https://stackoverflow.com/questions/10665889/how-to-take-column-slices-of-dataframe-in-pandas
-        dfcommon['hasBad'] = dfcommon.apply(lambda row: __plobrem(row))
+        dfcommon['missing'] = dfcommon.apply(lambda row: __plobrem(row))
         dfcommon['rejected'] = dfcommon.apply(
-            lambda row: __rejected(row, tolerance))
+            lambda row: __rejected_count(row, tolerance))
         stage = "done preparing common data"
         
-        prefix = dsys.DataFilePrefixes.bloomberg_only
-        datafolder = dsys.DataFolders.rejected
-        extension = dsys.Extensions.excel
-        filedetails = dsys.DataSys.datafile_details(
-            prefix, datafolder, symbol, date1, date2, extension)
-        saveDataframe(dfcommon, file_details, )
-        stage = "saved bloom only"
+        extension = dsys.Extensions.excel  # change this if we want matlab
+        file_details = dsys.DataSys.datafile_details(
+            dsys.Prefixes.bloomberg_only, dsys.DataFolders.rejected,
+            symbol, date1, date2, extension)
+        dsys.DataSys.save_dataframe(bloom_only, file_details, extension)
+        stage = "symbol {0} saved dates unique to bloom".format(symbol)
 
+        # save iq only
+        extension = dsys.Extensions.excel  # change this if we want matlab
+        file_details = dsys.DataSys.datafile_details(
+            dsys.Prefixes.iqfeed_only, dsys.DataFolders.rejected,
+            symbol, date1, date2, extension)
+        dsys.DataSys.save_dataframe(iq_only, file_details, extension)
+        stage = "symbol {0} saved dates unique to iqfeed".format(symbol)
+
+        # save rejected
+        rejectedrow_tolerance = 3
+        dfrejected = dfcommon.loc[(
+            (dfcommon['rejected'] > rejectedrow_tolerance) and
+            (dfcommon['missing'] > rejectedrow_tolerance))]
+
+        extension = dsys.Extensions.excel
+        file_details = dsys.DataSys.datafile_details(
+            dsys.Prefixes.rejected, dsys.DataFolders.rejected,
+            symbol, date1, date2, extension)
+        dsys.DataSys.save_dataframe(dfrejected, file_details, extension)
+        stage = "symbol {0} saved rejected (over tolerance)".format(symbol)
+
+        # save compiled
+        dfcompiled = dfcommon.loc[(
+            (dfcommon['rejected'] <= rejectedrow_tolerance) and
+            (dfcommon['missing'] <= rejectedrow_tolerance))]
+
+        extension = dsys.Extensions.excel
+        file_details = dsys.DataSys.datafile_details(
+            dsys.Prefixes.compiled, dsys.DataFolders.compiled,
+            symbol, date1, date2, extension)
+        dsys.DataSys.save_dataframe(dfcompiled, file_details, extension)
+        #stage = "symbol {0} saved rejected (over tolerance)".format(symbol)
+
+        stage = "Done"
         return stage
 
+        
 # ------------------------ Internals ---
 
 
