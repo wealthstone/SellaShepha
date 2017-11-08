@@ -12,12 +12,15 @@ import unittest.mock as mck
 import datetime as dt
 import pandas as pd
 # import numpy as np
-import sys
+# import sys
+import DataSys as dsys
 
 # import tests_setup
 # tests_setup.setpaths()
 # print(sys.path)
 import IQFeedImporter as iqfi
+
+dsys.DataSys.is_testing = True
 
 
 class TestsIqfeedImporter(unittest.TestCase):
