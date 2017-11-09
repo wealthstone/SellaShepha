@@ -135,14 +135,14 @@ class TestsIqfeedImporter(unittest.TestCase):
         '''
         tests importing all assets according to symbols list
         '''
-        self.assertTrue(False, "not implemented yet")
-        return
+        # self.assertTrue(False, "not implemented yet")
+        # return
 
         iqf = iqfi.IQFeedImporter()
         self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 
-        date_start = dt.datetime(2014, 10, 1)
-        date_end = dt.datetime(2015, 10, 1)
+        date_start = dt.datetime(2016, 1, 1)
+        date_end = dt.datetime(2017, 1, 1)
         dframe = iqf.import_all_assets(date_start, date_end)
         self.assertIsNotNone(dframe, "No data retreived")
 

@@ -62,7 +62,7 @@ class IQFeedImporter(object):
 
     def imp1_call_iqfeed(self, symbol, date_start, date_end):
         # x iqfeed = iqfc.IQFeedClient(feeder)
-        iqreq = iqfc.historicData(date_start, date_end, 60)
+        iqreq = iqfc.historicData(date_start, date_end, 86400)  # 60*60*24)
         dframe = iqreq.download_symbol(symbol)
         return dframe
 
@@ -113,10 +113,14 @@ class IQFeedImporter(object):
             logger.error(status)
             return status
 
-        self.tickers.reset_index()
-        dframe.reset_index()
-        self.tickers = self.tickers.append(dframe)
-        self.tickers.set_index(keys=['symbol', 'datetime'])
+        file_details = dsys.DataSys.datafile_details(
+            dsys.Prefixes.imported, dsys.DataFolders.imported, symbol)
+        dsys.DataSys.save_dataframe(dframe, file_details)
+
+        # self.tickers.reset_index()
+        # dframe.reset_index()
+        # self.tickers = self.tickers.append(dframe)
+        # self.tickers.set_index(keys=['symbol', 'datetime'])
         status = "ok. Imported {0}".format(symbol)
         return status  # for testing that we got here
 
@@ -127,19 +131,19 @@ class IQFeedImporter(object):
             logger.error("Import all: Symbols not loaded correctly. Aborting")
             return
 
-        for sym in self.symbols:
-            data = self.import_single_asset(sym, date_start, date_end)
-            data = "".join(data.split("\r"))
-            data = data.replace(",\n", "\n")[:-1]
+        for item in self.symbols:
+            data = self.import_single_asset(item, date_start, date_end)
+            #data = "".join(data.split("\r"))
+            #data = data.replace(",\n", "\n")[:-1]
 
         # todo: write to database. 
         # currently: adding to tickers dataframe
-        self.tickers.append(data)
+        # self.tickers.append(data)
 
         # Write the data stream to disk
-        f = open("{0}.csv".format('sym'), "w")
-        f.write(data)
-        f.close()
+        # f = open("{0}.csv".format('sym'), "w")
+        # f.write(data)
+        # f.close()
 
     def load_symbols(self):
         '''

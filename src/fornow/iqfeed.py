@@ -42,7 +42,7 @@ class historicData:
         
         self.startDate = startDate.strftime("%Y%m%d %H%M%S")
         self.endDate = endDate.strftime("%Y%m%d %H%M%S")
-        self.timeFrame = str(timeFrame)
+        self.timeFrame = timeFrame  # str(timeFrame)
         # We dont want the download directory to be in our source control
         self.downloadDir = "../../MarketData/"
         self.host = "127.0.0.1"  # Localhost
@@ -83,7 +83,7 @@ class historicData:
         
         if exists == False:       
             
-            message = "HIT,{0},'{1}',{2},{3},,093000,160000,1\n".format(symbol, self.timeFrame, self.startDate, self.endDate)
+            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(symbol, self.timeFrame, self.startDate, self.endDate)
         
             # Open a streaming socket to the IQFeed server locally
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

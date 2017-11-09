@@ -16,6 +16,7 @@ class Prefixes(object):  # Enum):
     bloomberg_compare = "bloom" # bloomberg input file
     bloomberg_only = "bloom_only"
     iqfeed_only = "iq_only"
+    imported = "iq"
     compiled = "ok"
     rejected = "rejects"
 
@@ -35,6 +36,7 @@ class DataFolders(object):  # Enum):
     compare_from = "compare"  # bloomberg
     rejected = "rejected"  # rejected, or only in one of the frames
     compiled = "compiled"  # compilation results
+    imported = "imported"  # temp iq feed imported repository
     ''' data folders enumeration '''
     # todo: config
 
