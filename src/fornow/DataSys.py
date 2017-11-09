@@ -12,11 +12,12 @@ logger = logging.getLogger(__name__)
 class Prefixes(object):  # Enum):
     ''' prefixes enum '''
     # todo: config
+    assets = "assets"  # symbols file
+    bloomberg_compare = "bloom" # bloomberg input file
     bloomberg_only = "bloom_only"
     iqfeed_only = "iq_only"
     compiled = "ok"
     rejected = "rejects"
-    bloomberg_compare = "bloom"
 
 
 class Extensions(object):  # Enum):

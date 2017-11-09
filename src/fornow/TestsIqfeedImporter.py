@@ -28,17 +28,19 @@ class TestsIqfeedImporter(unittest.TestCase):
     tests for IQFeedImport class and module
     '''
 
-    '''-- def test_setup(self):
-        result = tests_setup.curpaths()
-        iqfeeder = "c:\\dev\\SellaShepha\\src\\IQFeeder"
-        isok = self.assertIn(iqfeeder, result, "paths not set up")
-        if not isok:
-            tests_setup.setpaths()
-            self.assertIn(iqfeeder, result, "paths still not set up")
-    --'''
+    def deprectated_test_setup(self):
+        #     result = tests_setup.curpaths()
+        #     iqfeeder = "c:\\dev\\SellaShepha\\src\\IQFeeder"
+        #     isok = self.assertIn(iqfeeder, result, "paths not set up")
+        #     if not isok:
+        #         tests_setup.setpaths()
+        #         self.assertIn(iqfeeder, result, "paths still not set up")
+        return
 
-    def test_import_single_asset_returns_dataframe(self):
+    def test_import_1asset_returns_dataframe(self):
         ''' tests that import returns a dataframe using mock '''
+        self.assertTrue(False, "not implemented yet")
+        return
 
         sys.modules['iqfeed'] = mck.Mock()
         iqf = iqfi.IQFeedImporter()
@@ -51,8 +53,11 @@ class TestsIqfeedImporter(unittest.TestCase):
         # expected = True
         self.assertTrue(actual)
 
-    def test_import_single_asset__result_validated(self):
+    def test_import_1asset__result_validated(self):
         ''' tests that result is validated'''
+        self.assertTrue(False, "not implemented yet")
+        return
+
         symbol = "asymbol"  # todo: test settings?
         dframe = self.fake_df_imported(symbol)
 
@@ -60,8 +65,11 @@ class TestsIqfeedImporter(unittest.TestCase):
         actual = iqf.imp1_check_iqfeed_result(dframe)
         self.assertTrue(actual)
 
-    def test_import_single_asset__result_manipulated(self):
+    def test_import_1asset__result_manipulated(self):
         ''' tests that columns and index inserted in asset dataframe'''
+        self.assertTrue(False, "not implemented yet")
+        return
+
         actual = False  # todo: call method with dataframe and symbol
         self.assertTrue(actual)
 
@@ -72,11 +80,47 @@ class TestsIqfeedImporter(unittest.TestCase):
         self.assertIsNotNone(symbols)
         self.assertGreater(len(symbols), 0)
 
-    def test_import_single_asset(self):
-        ''' Tests all single asset importing '''
+    def test_load_bloomberg(self):
+        assertTrue(False, "pending run")
+        return
+
+        symbol = "SPX.XO"
+
+        iqf = iqfi.IQFeedImporter()
+        # self.assertIsNotNone(iqf, "Cannot create IQFeed class")
+
+        date_start = dt.datetime(2015, 10, 1)
+        date_end = dt.datetime(2016, 10, 1)
+        bloom = iqf.load_bloomberg(symbol, date_start, date_end)
+        # expected = not isnull(symbols) nore empty & bloom.count > 0
+        self.assertIsNotNone(bloom)
+        self.assertFalse(bloom.empty)
+        self.assertGreater(len(bloom), 0)
+
+    def test_import_single_asset_mocked(self):
+        ''' Tests full single asset importing '''
+        self.assertTrue(False, "pending testing")
+        return 
+
         symbol = "SPX.XO"
 
         sys.modules['iqfeed'] = mck.Mock()
+        iqf = iqfi.IQFeedImporter()
+        # self.assertIsNotNone(iqf, "Cannot create IQFeed class")
+
+        date_start = dt.datetime(2015, 10, 1)
+        date_end = dt.datetime(2016, 10, 1)
+        actual = iqf.import_single_asset(symbol, date_start, date_end)
+        expected = "ok."
+        self.assertTrue(actual.startswith(expected))
+
+    def test_import_single_asset_full(self):
+        ''' Tests full single asset importing '''
+        self.assertTrue(False, "pending testing")
+        return 
+
+        symbol = "SPX.XO"
+
         iqf = iqfi.IQFeedImporter()
         # self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 
@@ -90,6 +134,9 @@ class TestsIqfeedImporter(unittest.TestCase):
         '''
         tests importing all assets according to symbols list
         '''
+        self.assertTrue(False, "not implemented yet")
+        return
+
         iqf = iqfi.IQFeedImporter()
         self.assertIsNotNone(iqf, "Cannot create IQFeed class")
 

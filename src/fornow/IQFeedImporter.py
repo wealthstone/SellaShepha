@@ -53,10 +53,10 @@ def __failedmessage(func, symbol, reason):
 
 
 class IQFeedImporter(object):
-    tickers = pd.DataFrame(
-        columns=['symbol', 'date',
-                 'open', 'high', 'low', 'close', 'volume'],
-        index=['symbol', 'date'])
+    tickers = pd.DataFrame()
+    #     columns=['datetime', 'open', 'high', 'low', 'close', 
+    #              'volume', 'oi', 'symbol'])
+    # tickers.set_index(['symbol', 'datetime'])
 
     symbols = []  # 'CBOT', 'CFE', "SPY", "AAPL", "GOOG", "AMZN"]
 
@@ -68,7 +68,9 @@ class IQFeedImporter(object):
 
     def imp1_check_iqfeed_result(self, dframe):
         if not(dframe.empty):
-            dframe.dropna(how='all')
+            dframe.dropna(
+                subset=['open', 'high', 'low', 'close', 'volume'],
+                how='all')
 
         if dframe.empty:  # Note: Second check, not an else.
             logger.error("import_singleAsset failed: no data aquired.")
@@ -78,8 +80,8 @@ class IQFeedImporter(object):
 
     def imp1_manip_result(self, symbol, dframe):
         # set column names
-        dframe.columns = ['date', 'open', 'high', 'low', 'close', 'volume', 
-                          'other']
+        # dframe.rename_axis("datetime")
+        # dframe.columns = ['open', 'high', 'low', 'close', 'volume', 'oi']
 
         # add column with symbol
         dframe['symbol'] = pd.Series(
@@ -87,7 +89,7 @@ class IQFeedImporter(object):
             index=dframe.index)
 
         # set symbol and date column as multi index
-        dframe.reindex(columns=['symbol', 'date'])
+        dframe.reindex(columns=['symbol', 'datetime'])
 
         return True
 
@@ -111,8 +113,10 @@ class IQFeedImporter(object):
             logger.error(status)
             return status
 
-        self.tickers.append(dframe)
-
+        self.tickers.reset_index()
+        dframe.reset_index()
+        self.tickers = self.tickers.append(dframe)
+        self.tickers.set_index(keys=['symbol', 'datetime'])
         status = "ok. Imported {0}".format(symbol)
         return status  # for testing that we got here
 
@@ -143,7 +147,8 @@ class IQFeedImporter(object):
         '''
         
         settingsfldr = dsys.DataFolders.settings
-        assetslistfile = "assets.xlsx"  # "AssetNamesNew.v01.xlsx"
+        assetslistfile = "{0}.{1}".format(
+            dsys.Prefixes.assets, dsys.Extensions.excel)  # "AssetNamesNew.v01.xlsx"
 
         file_details = dsys.DataSys.details_byfolder(
                         settingsfldr, assetslistfile)
@@ -160,23 +165,29 @@ class IQFeedImporter(object):
             return
         self.symbols = dframe.values.tolist()
 
-    def loadBloomberg(self, symbol, date_start, date_end):
+    def load_bloomberg(self, symbol, date_start, date_end):
         file_details = dsys.DataSys.datafile_details(
             dsys.Prefixes.bloomberg_compare,
             dsys.DataFolders.compare_from,
             symbol, date_start, date_end,
             dsys.Extensions.excel)
 
-        bloomcols = "1,2,3,4,5" 
-        # "Date,PX_OPEN,PX_HIGH,PX_LOW,PX_LAST"
+        bloomcols = "1,2,3,4,5,6" 
+        # "Date,PX_OPEN,PX_HIGH,PX_LOW,PX_LAST,PX_VOLUME"
 
-        dframe = pd.read_excel(file_details, index_col='date',
+        dframe = pd.read_excel(file_details, index_col='Date',
                                na_values='NA', parse_cols=bloomcols)
         if dframe is None or dframe.empty:
             status = __failedmessage('loadbloom', symbol, 'No compare data')
             logger.error(status)
             return
         
+        dframe.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume', 'oi', 'symbol']
+        dframe['symbol'] = symbol
+        # X dframe['volume'] = 0
+        dframe['oi'] = 0
+        dframe.set_index(['symbol', 'datetime'])  
+
         return dframe
 
     def analyze_symbol(self, symbol, date_start, date_end):
@@ -184,7 +195,7 @@ class IQFeedImporter(object):
         analyzes iqfeed vs. bloomberg
         outputs: in_iq, in_bloom, rejects, compared
         '''
-        
+
         # pseudo: 
         # startdate: max first1:first2
         # enddate: min last1:last2
@@ -193,29 +204,16 @@ class IQFeedImporter(object):
         # find dates not in df2
         # for each line: na1, na2, na, zero2
         # for each line: (v1/v2)-1
-    
+
         stage = "failed"
-        iq_only = pd.DataFrame(
-            columns=['symbol', 'date', 
-                     'open', 'high', 'low', 'close', 'volume'], 
-            index=['symbol', 'date'])
-        
-        bloom_only = pd.DataFrame(
-            columns=['symbol', 'date', 
-                     'open', 'high', 'low', 'close', 'volume'])
 
-        compiled = pd.DataFrame(
-            columns=['symbol', 'date', 
-                     'open', 'high', 'low', 'close', 'volume',
-                     'ook', 'hok', 'lok', 'cok', 'vok', 'rowok'])
-
-        df1 = self.tickers.xs(symbol, level=('symbol'))
+        df1 = self.tickers.loc[(self.tickers['symbol'] == symbol)]
         if df1.empty:
             stage = __failedmessage('analyze', symbol, 'No feed data')
             logger.error(stage)
             return stage
 
-        df2 = self.loadBloomberg(symbol, date_start, date_end)
+        df2 = self.load_bloomberg(symbol, date_start, date_end)
         if df2 is None or df2.empty:
             stage = __failedmessage('analyze', symbol, 'No comparison data')
             logger.error(stage)
@@ -317,12 +315,11 @@ class IQFeedImporter(object):
             dsys.Prefixes.compiled, dsys.DataFolders.compiled,
             symbol, date1, date2, extension)
         dsys.DataSys.save_dataframe(dfcompiled, file_details, extension)
-        #stage = "symbol {0} saved rejected (over tolerance)".format(symbol)
+        # stage = "symbol {0} saved rejected (over tolerance)".format(symbol)
 
         stage = "Done"
         return stage
 
         
 # ------------------------ Internals ---
-
 
