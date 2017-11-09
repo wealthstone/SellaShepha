@@ -57,7 +57,7 @@ class IQFeedImporter(object):
     #     columns=['datetime', 'open', 'high', 'low', 'close', 
     #              'volume', 'oi', 'symbol'])
     # tickers.set_index(['symbol', 'datetime'])
-
+    df_assets = pd.DataFrame()
     symbols = []  # 'CBOT', 'CFE', "SPY", "AAPL", "GOOG", "AMZN"]
 
     def imp1_call_iqfeed(self, symbol, date_start, date_end):
@@ -152,18 +152,72 @@ class IQFeedImporter(object):
 
         file_details = dsys.DataSys.details_byfolder(
                         settingsfldr, assetslistfile)
-        symbols_column = "C"  # todo: config
-        dframe = pd.read_excel(file_details, index_col=None,
-                               na_values='NA', parse_cols=symbols_column)
-        if dframe.empty:
-            logger.error("Load symbols failed. No dataframe from %s",
-                         file_details)
-            return
-        dframe = dframe.dropna(how='all')
-        if dframe.empty:
-            logger.error("Load symbols failed. All records were NA")
-            return
-        self.symbols = dframe.values.tolist()
+        symbols_column = 4  # todo: config
+        sheetname = dsys.DataSys.assets_sheetname
+                
+        # dframe = pd.read_excel(file_details, sheetname=sheetname, index_col=0,
+        #                       na_values='NA', usecols=symbols_column)
+        assets_iq = ["SPX.XO", "COMPX.X","INDU.X","RUT.X",	"CAC.X"	,"DAX.X",	"UKX.X",	"HKHI.X",	"NIK.X",
+        	"BVSP.X",	"QCL#",	"XAUUSD.FXCM"	,"@W#"	,"EURUSD.FXCM",	"@TY#",	"MMSWRLD.X"	,"MXEA.X"	,"RUI.X",
+            "C.T0000.X"	,"QHG#"	,"QSI#","@C#","JPYUSD.COMP","GBPUSD.FXCM","AUDUSD.FXCM","CADUSD.COMP","CHFUSD.COMP",
+            "KOREA.X","@CC#","ICF#","@HE#","@S#","@LE#","@RR#"]
+        assets_bloom = [
+            "SPX_Index",
+            "CCMP_Index",
+            "INDU_Index",
+            "RTY_Index",
+            "CAC_Index",
+            "DAX_Index",
+            "UKX_Index",
+            "HSI_Index",
+            "NKY_Index",
+            "IBOV_Index",
+            "CL1_Comdty",
+            "XAU_Curncy",
+            "W_1_Comdty",
+            "EURUSD_Curncy",
+            "TY1_Comdty",
+            "MXWO_Index",
+            "MXEA_Index",
+            "RIY_Index",
+            "SPTSX_Index",
+            "HG1_Comdty",
+            "SI1_Comdty",
+            "C_1_Comdty",
+            "JPYUSD_Curncy",
+            "GBPUSD_Curncy",
+            "AUDUSD_Curncy",
+            "CADUSD_Curncy",
+            "CHFUSD_Curncy",
+            "KOSPI_Index",
+            "CC1_Comdty",
+            "AX1_Comdty",
+            "LH1_Comdty",
+            "S_1_Comdty",
+            "LC1_Comdty",
+            "RR1_Comdty"           
+        ]
+
+        # self.df_assets.loc[:,0] = assets_iq
+        # self.df_assets.columns = assets_bloom
+        
+
+
+        # fix. Read from excel
+        # if self.df_assets.empty:
+        #    stage = "Load symbols failed. No dataframe from {0}".format(file_details)
+        #    logger.error()
+        #    return
+        # self.df_assets = self.df_assets.dropna(how='all')
+
+        self.symbols = assets_iq  # self.df_assets.values.tolist()
+        # if self.symbols.count() < 1:
+        #    stage = "Load symbols failed. Could not load symbols list"
+        #    logger.error(stage)
+        #    return  stage  # in case we do anything else later
+
+        stage = "ok"
+        return stage
 
     def load_bloomberg(self, symbol, date_start, date_end):
         file_details = dsys.DataSys.datafile_details(
@@ -175,7 +229,8 @@ class IQFeedImporter(object):
         bloomcols = "1,2,3,4,5,6" 
         # "Date,PX_OPEN,PX_HIGH,PX_LOW,PX_LAST,PX_VOLUME"
 
-        dframe = pd.read_excel(file_details, index_col='Date',
+        dframe = pd.read_excel(file_details,  # sheetname=bloomsheet, 
+                              index_col=0,
                                na_values='NA', parse_cols=bloomcols)
         if dframe is None or dframe.empty:
             status = __failedmessage('loadbloom', symbol, 'No compare data')

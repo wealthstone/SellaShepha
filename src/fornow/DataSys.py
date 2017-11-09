@@ -45,6 +45,8 @@ class DataSys(object):
     '''
     is_testing = False  # change this to true for testing
 
+    assets_sheetname = "Technical"  # for loading symbols
+
     project_path = "c:\\dev\\SellaShepha"  # WealthProphet
     data_mainpath = "{0}\\{1}".format(project_path, "data")
     data_testingpath = "{0}\\{1}".format(data_mainpath, "testing")

@@ -75,13 +75,14 @@ class TestsIqfeedImporter(unittest.TestCase):
 
     def test_load_symbols(self):
         iqf = iqfi.IQFeedImporter()
-        symbols = iqf.load_symbols()
-        # expected = not isnull(symbols) & symbols.count > 0
-        self.assertIsNotNone(symbols)
-        self.assertGreater(len(symbols), 0)
+        result = iqf.load_symbols()
+        expected = "ok"
+        self.assertEqual(expected, result)
+        self.assertIsNotNone(iqf.symbols)
+        self.assertGreater(len(iqf.symbols), 0)
 
     def test_load_bloomberg(self):
-        assertTrue(False, "pending run")
+        self.assertTrue(False, "pending run")
         return
 
         symbol = "SPX.XO"
