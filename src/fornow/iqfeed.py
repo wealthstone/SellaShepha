@@ -92,7 +92,7 @@ class historicData:
             
             sock.sendall(message.encode('utf-8'))  # see issue 2 on github
             data = self.read_historical_data_socket(sock)
-            sock.shutdown()
+            sock.shutdown(socket.SHUT_RDWR)
             sock.close()
             
             # Remove all the endlines and line-ending
