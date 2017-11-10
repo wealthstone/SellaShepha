@@ -84,7 +84,7 @@ class historicData:
         if exists == False:       
             
             # removed single quotes around timeframe see issue 3 on github
-            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(symbol, str(self.timeFrame), self.startDate, self.endDate)
+            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(symbol, self.timeFrame, self.startDate, self.endDate)
         
             # Open a streaming socket to the IQFeed server locally
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
