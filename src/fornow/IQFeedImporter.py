@@ -113,12 +113,12 @@ class IQFeedImporter(object):
         if not isok:
             status = "{0}: Problem setting data".format(failedstatus)
             logger.error(status)
-            return status
+            # return status
 
-        file_details = dsys.DataSys.datafile_details(
-            dsys.Prefixes.imported, dsys.DataFolders.imported, 
-            symbol, date_start, date_end)
-        dsys.DataSys.save_dataframe(dframe, file_details)
+        # file_details = dsys.DataSys.datafile_details(
+        #     dsys.Prefixes.imported, dsys.DataFolders.imported, 
+        #     symbol, date_start, date_end)
+        # # fix: dsys.DataSys.save_dataframe(dframe, file_details)
 
         # self.tickers.reset_index()
         # dframe.reset_index()
