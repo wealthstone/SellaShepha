@@ -49,7 +49,7 @@ def __rejected_count(row, tolerance):
 
 
 def __failedmessage(func, symbol, reason):
-    return "Failed {0} {1}: {2}".format(func, symbol, reason)
+    return "failed {0} {1}: {2}".format(func, symbol, reason)
 
 
 class IQFeedImporter(object):
@@ -116,7 +116,8 @@ class IQFeedImporter(object):
             return status
 
         file_details = dsys.DataSys.datafile_details(
-            dsys.Prefixes.imported, dsys.DataFolders.imported, symbol)
+            dsys.Prefixes.imported, dsys.DataFolders.imported, 
+            symbol, date_start, date_end)
         dsys.DataSys.save_dataframe(dframe, file_details)
 
         # self.tickers.reset_index()
@@ -328,7 +329,7 @@ class IQFeedImporter(object):
         # create the merge, the bloom only and iqfeed only
         dfcommon = df1.merge(
             df2, on=['symbol', 'date'], left_index=True, right_index=True)
-        stage = "Failed. Analyze {0}"
+        stage = "failed. Analyze {0}"
         iq_only = df1[(~df1.index.isin(dfcommon.index))]
         bloom_only = df2[(~df1.index.isin(dfcommon.index))]
         stage = "Created summaries of unique in iqfeed and Bloomberg"        
