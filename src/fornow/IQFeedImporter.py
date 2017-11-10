@@ -62,7 +62,7 @@ class IQFeedImporter(object):
 
     def imp1_call_iqfeed(self, symbol, date_start, date_end):
         # x iqfeed = iqfc.IQFeedClient(feeder)
-        timeframe = 86400  # 60*60*24  86400  1440
+        timeframe = 36000  # 60*60*24  86400  1440
         iqreq = iqfc.historicData(date_start, date_end, timeframe)
         dframe = iqreq.download_symbol(symbol)
         return dframe
@@ -98,19 +98,20 @@ class IQFeedImporter(object):
         '''
         imports single asset
         '''
-        status = "failed. Import {0}".format(symbol)
+        failedstatus = "failed. Import {0}".format(symbol)
+        status = "starting"
         # todo: add date_start and end in status. 
 
         dframe = self.imp1_call_iqfeed(symbol, date_start, date_end)
         isok = self.imp1_check_iqfeed_result(dframe)
         if not isok:
-            status = "import {0} failed: Empty or no results".format(symbol)
+            status = "{0}: Empty or no results".format(failedstatus)
             logger.error(status)
             return status
 
         isok = self.imp1_manip_result(symbol, dframe)
         if not isok:
-            status = "fail. Import {0}: Problem setting data".format(symbol)
+            status = "{0}: Problem setting data".format(failedstatus)
             logger.error(status)
             return status
 
@@ -126,13 +127,17 @@ class IQFeedImporter(object):
         return status  # for testing that we got here
 
     def import_all_assets(self, date_start, date_end):
+        stage = "starting"
         self.load_symbols()  # get symbols list
 
         if len(self.symbols) < 1:
-            logger.error("Import all: Symbols not loaded correctly. Aborting")
-            return
-
+            stage = "failed. Import all: Symbols not loaded correctly. Aborted"
+            logger.error(stage)
+            return stage
+        
+        runcount = 0
         for item in self.symbols:
+            runcount += 1
             data = self.import_single_asset(item, date_start, date_end)
             #data = "".join(data.split("\r"))
             #data = data.replace(",\n", "\n")[:-1]
@@ -145,6 +150,9 @@ class IQFeedImporter(object):
         # f = open("{0}.csv".format('sym'), "w")
         # f.write(data)
         # f.close()
+        stage = "ok. Import all: {0}".format(runcount)
+        logger.error(stage)
+        return stage
 
     def load_symbols(self):
         '''

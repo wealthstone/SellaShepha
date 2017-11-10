@@ -92,8 +92,8 @@ class historicData:
             
             sock.sendall(message.encode('utf-8'))  # see issue 2 on github
             data = self.read_historical_data_socket(sock)
-            sock.shutdown(socket.SHUT_RDWR)
-            sock.close()
+            sock.shutdown(socket.SHUT_RDWR)  # see issue 1 on github
+            sock.close()  # added method parenthesis (as part of issue 1 fix)
             
             # Remove all the endlines and line-ending
             # comma delimiter from each record
