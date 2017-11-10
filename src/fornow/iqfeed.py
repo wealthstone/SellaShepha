@@ -76,20 +76,21 @@ class historicData:
         # Construct the message needed by IQFeed to retrieve data
         #[bars in seconds],[beginning date: CCYYMMDD HHmmSS],[ending date: CCYYMMDD HHmmSS],[empty],[beginning time filter: HHmmSS],[ending time filter: HHmmSS],[old or new: 0 or 1],[empty],[queue data points per second]
         #message = "HIT,%s,%i,%s,%s,,093000,160000,1\n" % symbol, self.timeFrame, self.startDate, self.endDate
-        #message = message = "HIT,%s,%s,20150101 075000,,,093000,160000,1\n" % symbol, self.timeFrame
+        #message = "HIT,%s,%s,20150101 075000,,,093000,160000,1\n" % symbol, self.timeFrame
     
         fileName = "{0}{1}-{2}-{3}-{4}.csv".format(self.downloadDir, symbol, self.timeFrame, self.startDate, self.endDate)
         exists = os.path.isfile(fileName)
         
         if exists == False:       
             
+            # removed single quotes around timeframe see issue 3 on github
             message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(symbol, str(self.timeFrame), self.startDate, self.endDate)
         
             # Open a streaming socket to the IQFeed server locally
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((self.host, self.port))
             
-            sock.sendall(message.encode('utf-8'))
+            sock.sendall(message.encode('utf-8'))  # see issue 2 on github
             data = self.read_historical_data_socket(sock)
             sock.shutdown()
             sock.close()
