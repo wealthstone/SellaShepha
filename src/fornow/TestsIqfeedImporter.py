@@ -143,8 +143,8 @@ class TestsIqfeedImporter(unittest.TestCase):
 
         date_start = dt.datetime(2016, 1, 1)
         date_end = dt.datetime(2017, 1, 1)
-        dframe = iqf.import_all_assets(date_start, date_end)
-        self.assertIsNotNone(dframe, "No data retreived")
+        result = iqf.import_all_assets(date_start, date_end)
+        self.assertIsNotNone(result, "No data retreived")
 
         result = iqf.tickers
         self.assertTrue(not result.empty)
