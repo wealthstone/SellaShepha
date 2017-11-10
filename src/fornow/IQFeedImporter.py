@@ -62,7 +62,8 @@ class IQFeedImporter(object):
 
     def imp1_call_iqfeed(self, symbol, date_start, date_end):
         # x iqfeed = iqfc.IQFeedClient(feeder)
-        iqreq = iqfc.historicData(date_start, date_end, 86400)  # 60*60*24)
+        timeframe = 86400  # 60*60*24  86400  1440
+        iqreq = iqfc.historicData(date_start, date_end, timeframe)
         dframe = iqreq.download_symbol(symbol)
         return dframe
 
