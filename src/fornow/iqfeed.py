@@ -87,11 +87,13 @@ class historicData:
         if exists == False:       
             
             # removed single quotes around timeframe see issue 3 on github
-            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(
+            message = "HTT,{0},{1},{2},{3},,093000,160000,1\n".format(
                 symbol, self.timeFrame, self.startDate, self.endDate)
 
             if (self.timeFrame == 86400):
-                message = "HIT,{0},{1},{2},,010000,235900,1\n".format(
+                # or try this:
+                # message = "HIT,{0},{1},{2},,010000,235900,1\n".format(
+                message = "HIT,{0},{1},{2},,,,1\n".format(
                     symbol, self.startDate, self.endDate)
 
             # definitions from akapur's module 
