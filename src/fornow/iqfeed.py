@@ -40,8 +40,8 @@ class historicData:
     # 
     def __init__(self, startDate, endDate, timeFrame=60):
         
-        self.startDate = startDate.strftime("%Y%m%d %H%M%S")
-        self.endDate = endDate.strftime("%Y%m%d %H%M%S")
+        self.startDate = startDate.strftime("%Y%m%d")  # %H%M%S")
+        self.endDate = endDate.strftime("%Y%m%d") # %H%M%S")
         self.timeFrame = timeFrame  # str(timeFrame)
         # We dont want the download directory to be in our source control
         self.downloadDir = "../../MarketData/"
@@ -90,26 +90,40 @@ class historicData:
             message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(
                 symbol, self.timeFrame, self.startDate, self.endDate)
 
+            # accroding to https://github.com/akapur/pyiqfeed/blob/master/pyiqfeed/conn.py
             if (self.timeFrame == 86400):
-                # Note: could not try. Don't have iqfeed client
-                message = "HTT,{0},{1},{2},,,,1\n".format(
-                    symbol, self.startDate, self.endDate)
-                # or try this:
+                message = "HDT,{0},{1},{2},,1\n".format(
+                    symbol, self.startDate, self.endDate) 
+
+                # Trying these
+                # message = "HTT,{0},{1},{2},,,,1\n".format(
                 # message = "HTT,{0},{1},{2},,010000,235900,1\n".format(
+                #    symbol, self.startDate, self.endDate)
 
-            # definitions from akapur's module 
+            # === definitions from akapur's module ===
+            # https://github.com/akapur/pyiqfeed/blob/master/pyiqfeed/conn.py
+            # daily bars for a specific period
+            # HDT,[Symbol],[BeginDate],[EndDate],[MaxDatapoints],[DataDirection],
+            # [RequestID],[DatapointsPerSend]<CR><LF>
 
+            #  bars for a specific period
             #  HIT,[Symbol],[Interval],[BeginDate BeginTime],[EndDate EndTime],
             # [MaxDatapoints],[BeginFilterTime],[EndFilterTime],[DataDirection],
             # [RequestID],[DatapointsPerSend],[IntervalType]<CR><LF> 
 
+            # request_bars_for_days
+            # HID,[Symbol],[Interval],[Days],[MaxDatapoints],
+            # [BeginFilterTime],[EndFilterTime],[DataDirection],
+            # [RequestID],[DatapointsPerSend],[IntervalType]<CR><LF>
+
+            # tickdata in a certain period
             # HTT,[Symbol],[BeginDate BeginTime],[EndDate EndTime],
             # [MaxDatapoints],[BeginFilterTime],[EndFilterTime],
             # [DataDirection],[RequestID],[DatapointsPerSend]<CR><LF>
 
-            #HID,[Symbol],[Interval],[Days],[MaxDatapoints],
-            # [BeginFilterTime],[EndFilterTime],[DataDirection],
-            # [RequestID],[DatapointsPerSend],[IntervalType]<CR><LF>
+            # tickdata for a certain number of days in the past
+            # HTD,[Symbol],[Days],[MaxDatapoints],[BeginFilterTime],[EndFilterTime],
+            # [DataDirection],[RequestID],[DatapointsPerSend]<CR><LF>
 
             # Open a streaming socket to the IQFeed server locally
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
