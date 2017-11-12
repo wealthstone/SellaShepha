@@ -74,7 +74,10 @@ class historicData:
     def download_symbol(self, symbol):
     
         # Construct the message needed by IQFeed to retrieve data
-        #[bars in seconds],[beginning date: CCYYMMDD HHmmSS],[ending date: CCYYMMDD HHmmSS],[empty],[beginning time filter: HHmmSS],[ending time filter: HHmmSS],[old or new: 0 or 1],[empty],[queue data points per second]
+        #[bars in seconds],[beginning date: CCYYMMDD HHmmSS],[ending date: CCYYMMDD HHmmSS],
+        # [empty],[beginning time filter: HHmmSS],[ending time filter: HHmmSS],
+        # [old or new: 0 or 1],
+        # [empty],[queue data points per second]
         #message = "HIT,%s,%i,%s,%s,,093000,160000,1\n" % symbol, self.timeFrame, self.startDate, self.endDate
         #message = "HIT,%s,%s,20150101 075000,,,093000,160000,1\n" % symbol, self.timeFrame
     
@@ -84,8 +87,27 @@ class historicData:
         if exists == False:       
             
             # removed single quotes around timeframe see issue 3 on github
-            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(symbol, self.timeFrame, self.startDate, self.endDate)
-        
+            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(
+                symbol, self.timeFrame, self.startDate, self.endDate)
+
+            if (self.timeFrame == 86400):
+                message = "HIT,{0},{1},{2},,010000,235900,1\n".format(
+                    symbol, self.startDate, self.endDate)
+
+            # definitions from akapur's module 
+
+            #  HIT,[Symbol],[Interval],[BeginDate BeginTime],[EndDate EndTime],
+            # [MaxDatapoints],[BeginFilterTime],[EndFilterTime],[DataDirection],
+            # [RequestID],[DatapointsPerSend],[IntervalType]<CR><LF> 
+
+            # HTT,[Symbol],[BeginDate BeginTime],[EndDate EndTime],
+            # [MaxDatapoints],[BeginFilterTime],[EndFilterTime],
+            # [DataDirection],[RequestID],[DatapointsPerSend]<CR><LF>
+
+            #HID,[Symbol],[Interval],[Days],[MaxDatapoints],
+            # [BeginFilterTime],[EndFilterTime],[DataDirection],
+            # [RequestID],[DatapointsPerSend],[IntervalType]<CR><LF>
+
             # Open a streaming socket to the IQFeed server locally
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((self.host, self.port))
