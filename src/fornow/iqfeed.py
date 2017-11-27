@@ -85,15 +85,17 @@ class historicData:
         exists = os.path.isfile(fileName)
         
         if exists == False:       
-            
-            # removed single quotes around timeframe see issue 3 on github
-            message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(
-                symbol, self.timeFrame, self.startDate, self.endDate)
+            message = "HDT,{0},{1},{2},,1\n".format(
+                     symbol, self.startDate, self.endDate) 
 
-            # accroding to https://github.com/akapur/pyiqfeed/blob/master/pyiqfeed/conn.py
-            if (self.timeFrame == 86400):
-                message = "HDT,{0},{1},{2},,1\n".format(
-                    symbol, self.startDate, self.endDate) 
+            # # removed single quotes around timeframe see issue 3 on github
+            # message = "HIT,{0},{1},{2},{3},,093000,160000,1\n".format(
+            #     symbol, self.timeFrame, self.startDate, self.endDate)
+
+            # # accroding to https://github.com/akapur/pyiqfeed/blob/master/pyiqfeed/conn.py
+            # if (self.timeFrame == 86400):
+            #     message = "HDT,{0},{1},{2},,1\n".format(
+            #         symbol, self.startDate, self.endDate) 
 
                 # Trying these
                 # message = "HTT,{0},{1},{2},,,,1\n".format(

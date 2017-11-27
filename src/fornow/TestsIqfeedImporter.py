@@ -39,9 +39,6 @@ class TestsIqfeedImporter(unittest.TestCase):
 
     def test_import_1asset_returns_dataframe(self):
         ''' tests that import returns a dataframe using mock '''
-        self.assertTrue(False, "not implemented yet")
-        return
-
         sys.modules['iqfeed'] = mck.Mock()
         iqf = iqfi.IQFeedImporter()
 
@@ -54,8 +51,9 @@ class TestsIqfeedImporter(unittest.TestCase):
         self.assertTrue(actual)
 
     def test_import_1asset__result_validated(self):
-        ''' tests that result is validated'''
-        self.assertTrue(False, "not implemented yet")
+        iqf = iqfi.IQFeedImporter()
+        dframe = fake_df_imported()
+        result = iqf.imp1_check_iqfeed_result(dframe)
         return
 
         symbol = "asymbol"  # todo: test settings?
@@ -153,6 +151,8 @@ class TestsIqfeedImporter(unittest.TestCase):
     def fake_df_imported(symbol):
         drange = pd.date_range('1/1/2015', periods=5, freq='D')
         dframe = pd.Series([drange, symbol, 2, 7, 1, 6, 0, 0])
+        dframe.columns = ['datetime','open', 'high', 'low', 'close', 'symbol']
+        dframe.set_index(['symbol', 'datetime'])
         return dframe
 
     # todo: other tests (1) nose2 ? , (2) Robot ?,

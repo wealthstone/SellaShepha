@@ -45,6 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Manually ignored
 .vscode/settings.json
 .vscode/launch.json
 src/junk/blabla.py

@@ -1,0 +1,218 @@
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Import all: Symbols not loaded correctly. Aborting
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Import all: Symbols not loaded correctly. Aborting
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Import all: Symbols not loaded correctly. Aborting
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Import all: Symbols not loaded correctly. Aborting
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:Load symbols failed. No dataframe from c:\dev\SellaShepha\data\settings\assets.xlsx
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import SPX.XO failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import SPX.XO failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import COMPX.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import INDU.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import RUT.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import CAC.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import DAX.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import UKX.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import HKHI.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import NIK.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import BVSP.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import QCL# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import XAUUSD.FXCM failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @W# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import EURUSD.FXCM failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @TY# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import MMSWRLD.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import MXEA.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import RUI.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import C.T0000.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import QHG# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import QSI# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @C# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import JPYUSD.COMP failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import GBPUSD.FXCM failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import AUDUSD.FXCM failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import CADUSD.COMP failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import CHFUSD.COMP failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import KOREA.X failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @CC# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import ICF# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @HE# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @S# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @LE# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:import @RR# failed: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import INDU.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUT.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import UKX.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import XAUUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import EURUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import MMSWRLD.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUI.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QHG#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QSI#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import JPYUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import GBPUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import AUDUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CADUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CHFUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:ok. Import all: 34
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import INDU.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUT.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import UKX.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import XAUUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import EURUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import MMSWRLD.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUI.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QHG#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QSI#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import JPYUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import GBPUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import AUDUSD.FXCM: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CADUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CHFUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:ok. Import all: 34
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import INDU.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUT.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import UKX.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import MMSWRLD.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUI.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QHG#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QSI#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import JPYUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CADUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CHFUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:ok. Import all: 34
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import INDU.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUT.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import UKX.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import MMSWRLD.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUI.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QHG#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QSI#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import JPYUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CADUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CHFUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:ok. Import all: 34
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import INDU.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUT.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import UKX.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import MMSWRLD.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import RUI.X: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QHG#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import QSI#: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import JPYUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CADUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:import_singleAsset failed: no data aquired.
+ERROR:IQFeedImporter:failed. Import CHFUSD.COMP: Empty or no results
+ERROR:IQFeedImporter:ok. Import all: 34
